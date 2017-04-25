@@ -47,9 +47,10 @@ int main(int argc, char** argv) {
 
   // output permutations to file
   for (unsigned long long i = 0; i < word_length * num_perm; i++) {
-    outputFile << permutations[i];
     if (i + 1 % word_length == 0)
-      outputFile << '\n';
+      outputFile << permutations[i] << '\n';
+    else
+      outputFile << permutations[i];
   }
 
   free(permutations);
