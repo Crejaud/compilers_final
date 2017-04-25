@@ -53,7 +53,6 @@ int main(int argc, char** argv) {
   }
 
   free(permutations);
-  free(word);
 
   return 0;
 }

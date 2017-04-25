@@ -66,6 +66,7 @@ char* find_all_permutations(int blockSize, int blockNum, int word_length) {
   // DEALLOCATE
   cudaFree(cuda_permutations);
   cudaFree(cuda_word);
+  free(word);
 
   return permutations;
 }
