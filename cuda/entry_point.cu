@@ -45,6 +45,8 @@ int main(int argc, char** argv) {
   unsigned long long num_perm = 1;
   for (int k = 1; k <= word_length; num_perm *= k++);
 
+  cout << "Copying data to cuda_permutations.out ...\n";
+
   // output permutations to file
   for (unsigned long long i = 0; i < word_length * num_perm; i++) {
     outputFile << permutations[i];
