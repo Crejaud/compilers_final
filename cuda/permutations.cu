@@ -13,9 +13,9 @@ __device__ void remove_index_from_array(char* arr, int index, int temp_length) {
 
 __device__ void remove_index_from_shared_memory_array(char* arr, int index, int temp_length, int threadId, int word_length) {
   for (int i = word_length * threadId; i < word_length * threadId + temp_length - 1; i++) {
-    printf("thread_id = %d | arr[%d] = %d | index = %d\n", threadId, i, arr[i], index);
+    //printf("thread_id = %d | arr[%d] = %d | index = %d\n", threadId, i, arr[i], index);
     if (i >= index) {
-      printf("thread_id = %d | arr[%d] = %d | index = %d | arr[%d] = %c | arr[%d] = %c\n", threadId, i, arr[i], index, i, arr[i], i+1, arr[i+1]);
+      //printf("thread_id = %d | arr[%d] = %d | index = %d | arr[%d] = %c | arr[%d] = %c\n", threadId, i, arr[i], index, i, arr[i], i+1, arr[i+1]);
       arr[i] = arr[i + 1];
     }
   }
@@ -44,7 +44,7 @@ __global__ void find_all_permutations_kernel_shared_memory(char* word, int word_
 
     // populate shared memory with word
     for (int j = beg * word_length; j < beg * word_length + word_length; j++) {
-      printf("temp[%d] = %c\n", j, word[j % word_length]);
+      //printf("temp[%d] = %c\n", j, word[j % word_length]);
       temp_word[j] = word[j % word_length];
     }
     //printf("divisor = %llu | num_perm = %llu | word_length %d\n", divisor, num_perm, word_length);
@@ -59,7 +59,7 @@ __global__ void find_all_permutations_kernel_shared_memory(char* word, int word_
 
       int true_index = index + beg * word_length;
 
-      printf("permutations[%llu] = temp[%d] = %c | divisor = %llu | digit = %d | t = %llu\n", i*word_length + permutations_index, true_index, temp_word[index], divisor, digit, t);
+      printf("permutations[%llu] = temp[%d] = %c | divisor = %llu | digit = %d | t = %llu\n", i*word_length + permutations_index, true_index, temp_word[true_index], divisor, digit, t);
 
       permutations[i*word_length + permutations_index] = temp_word[true_index];
       permutations_index++;
