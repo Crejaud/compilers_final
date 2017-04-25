@@ -59,7 +59,7 @@ __global__ void find_all_permutations_kernel_shared_memory(char* word, int word_
 
       int true_index = index + beg * word_length;
 
-      printf("permutations[%llu] = temp[%d] = %c | divisor = %llu | digit = %d | t = %llu\n", i*word_length + permutations_index, true_index, temp_word[true_index], divisor, digit, t);
+      //printf("permutations[%llu] = temp[%d] = %c | divisor = %llu | digit = %d | t = %llu\n", i*word_length + permutations_index, true_index, temp_word[true_index], divisor, digit, t);
 
       permutations[i*word_length + permutations_index] = temp_word[true_index];
       permutations_index++;
@@ -148,6 +148,19 @@ char* find_all_permutations(int blockSize, int blockNum, int word_length) {
   cudaEventRecord(start, 0);
 
   // call kernel
+  find_all_permutations_kernel<<<blockNum, blockSize>>>(cuda_word, word_length, num_perm, cuda_permutations);
+  cudaDeviceSynchronize();
+
+  cudaEventRecord(stop, 0);
+  cudaEventSynchronize(stop);
+
+  cudaEventElapsedTime(&elapsed, start, stop);
+
+  printf("Elapsed time [No shared memory]: %.2f ms\n", elapsed);
+
+  cudaEventRecord(start, 0);
+
+  // call kernel
   find_all_permutations_kernel_shared_memory<<<blockNum, blockSize, blockSize * word_length * sizeof(char)>>>(cuda_word, word_length, num_perm, cuda_permutations);
   cudaDeviceSynchronize();
 
@@ -156,7 +169,7 @@ char* find_all_permutations(int blockSize, int blockNum, int word_length) {
 
   cudaEventElapsedTime(&elapsed, start, stop);
 
-  printf("Elapsed time: %.2f ms\n", elapsed);
+  printf("Elapsed time [Shared memory]: %.2f ms\n", elapsed);
 
   cudaMemcpy(permutations, cuda_permutations, word_length * num_perm * sizeof(char), cudaMemcpyDeviceToHost);
 
