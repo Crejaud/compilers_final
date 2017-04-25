@@ -36,7 +36,7 @@ __global__ void find_all_permutations_kernel(char* word, int word_length, unsign
 
 void generateWord(char* word, int* word_length);
 
-void find_all_permutations(int blockSize, int blockNum, int word_length, std::ofstream outputFile) {
+void find_all_permutations(int blockSize, int blockNum, int word_length) {
   // ALLOCATE
   char* word = (char *) malloc(word_length * sizeof(char));
 
@@ -63,18 +63,11 @@ void find_all_permutations(int blockSize, int blockNum, int word_length, std::of
 
   cudaMemcpy(permutations, cuda_permutations, word_length * num_perm * sizeof(char), cudaMemcpyDeviceToHost);
 
-  // output permutations to file
-  for (unsigned long long i = 0; i < word_length * num_perm; i++) {
-    outputFile << permutations[i];
-    if (i + 1 % word_length == 0)
-      outputFile << '\n';
-  }
-
   // DEALLOCATE
   cudaFree(cuda_permutations);
   cudaFree(cuda_word);
-  free(permutations);
-  free(word);
+
+  return permutations;
 }
 
 /* Generate the random word given a word_length */

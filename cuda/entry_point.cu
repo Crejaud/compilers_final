@@ -40,6 +40,20 @@ int main(int argc, char** argv) {
     return 1;
   }
 
-  find_all_permutations(bsize, bcount, word_length, outputFile);
+  char* permutations = find_all_permutations(bsize, bcount, word_length);
 
+  unsigned long long num_perm = 1;
+  for (int k = 1; k <= word_length; num_perm *= k++);
+
+  // output permutations to file
+  for (unsigned long long i = 0; i < word_length * num_perm; i++) {
+    outputFile << permutations[i];
+    if (i + 1 % word_length == 0)
+      outputFile << '\n';
+  }
+
+  free(permutations);
+  free(word);
+
+  return 0;
 }
