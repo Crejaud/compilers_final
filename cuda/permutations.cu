@@ -57,7 +57,7 @@ __global__ void find_all_permutations_kernel_shared_memory(char* word, int word_
 
       int true_index = index + threadIdx.x * word_length;
 
-      printf("permutations[%llu] = temp[%d] = %c | divisor = %llu | digit = %d | t = %llu\n", i*word_length + permutations_index, true_index, temp[index], divisor, digit, t);
+      printf("permutations[%llu] = temp[%d] = %c | divisor = %llu | digit = %d | t = %llu\n", i*word_length + permutations_index, true_index, temp_word[index], divisor, digit, t);
 
       permutations[i*word_length + permutations_index] = temp_word[true_index];
       permutations_index++;
