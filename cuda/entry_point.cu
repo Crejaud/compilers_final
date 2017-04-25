@@ -54,5 +54,7 @@ int main(int argc, char** argv) {
 
   free(permutations);
 
+  outputFile.close();
+
   return 0;
 }
