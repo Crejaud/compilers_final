@@ -89,7 +89,7 @@ char* find_all_permutations(int blockSize, int blockNum, int word_length) {
   cudaDeviceSynchronize();
 
   cudaEventRecord(stop, 0);
-  cudaEventSyncronize(stop);
+  cudaEventSynchronize(stop);
 
   cudaEventElapsedTime(&elapsed, start, stop);
 
