@@ -36,7 +36,7 @@ __global__ void find_all_permutations_kernel(char* word, int word_length, unsign
 
 void generateWord(char* word, int* word_length);
 
-void find_all_permutations(int blockSize, int blockNum, int word_length) {
+char* find_all_permutations(int blockSize, int blockNum, int word_length) {
   // ALLOCATE
   char* word = (char *) malloc(word_length * sizeof(char));
 
