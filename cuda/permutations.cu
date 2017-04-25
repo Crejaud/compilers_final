@@ -11,6 +11,64 @@ __device__ void remove_index_from_array(char* arr, int index, int temp_length) {
   }
 }
 
+__device__ void remove_index_from_shared_memory_array(char* arr, int index, int temp_length, int threadId, int word_length) {
+  for (int i = word_length * threadId; i < word_length * threadId + temp_length - 1; i++) {
+    if (i >= index) {
+      arr[i] = arr[i + 1];
+    }
+  }
+}
+
+__global__ void find_all_permutations_kernel_shared_memory(char* word, int word_length, unsigned long long num_perm, char* permutations) {
+  extern __shared__ char temp_word[ ];
+
+  unsigned long long thread_id = blockDim.x * blockIdx.x + threadIdx.x;
+  unsigned long long thread_num = blockDim.x * gridDim.x;
+
+  unsigned long long warp_id = thread_id / 32;
+  unsigned long long warp_num = thread_num % 32 == 0 ? thread_num / 32 : thread_num / 32 + 1;
+
+  unsigned long long load = num_perm % warp_num == 0 ? num_perm / warp_num : num_perm / warp_num + 1;
+  unsigned long long beg = load * warp_id;
+  unsigned long long end = min(num_perm, beg + load);
+  unsigned long long lane = thread_id % 32;
+  beg += lane;
+
+  for(int i = beg; i < end; i += 32) {
+
+    //char* temp = word;
+    unsigned long long divisor = num_perm;
+    int temp_length = word_length;
+
+    // populate shared memory with word
+    for (int j = threadIdx.x * word_length; j < threadIdx.x * word_length + 4; j++) {
+      temp_word[j] = word[j];
+    }
+    //printf("divisor = %llu | num_perm = %llu | word_length %d\n", divisor, num_perm, word_length);
+    unsigned long long permutations_index = 0;
+    for (int digit = word_length; digit > 0; digit--) {
+      //printf("divisor before = %llu, digit = %d\n", divisor, digit);
+      divisor /= digit;
+      //printf("divisor after = %llu\n", divisor);
+
+      unsigned long long t = i / divisor;
+      int index = t % digit;
+
+      int true_index = index + threadIdx.x * word_length;
+
+      //printf("permutations[%llu] = temp[%d] = %c | divisor = %llu | digit = %d | t = %llu\n", i*word_length + permutations_index, index, temp[index], divisor, digit, t);
+
+      permutations[i*word_length + permutations_index] = temp_word[true_index];
+      permutations_index++;
+
+      // remove temp[index]
+      char* ptr_to_smem = (char *) temp_word;
+      remove_index_from_shared_memory_array(ptr_to_smem, true_index, temp_length, threadIdx.x, word_length);
+      temp_length--;
+    }
+  }
+}
+
 __global__ void find_all_permutations_kernel(char* word, int word_length, unsigned long long num_perm, char* permutations) {
   unsigned long long thread_id = blockDim.x * blockIdx.x + threadIdx.x;
   unsigned long long thread_num = blockDim.x * gridDim.x;
@@ -85,7 +143,7 @@ char* find_all_permutations(int blockSize, int blockNum, int word_length) {
   cudaEventRecord(start, 0);
 
   // call kernel
-  find_all_permutations_kernel<<<blockNum, blockSize>>>(cuda_word, word_length, num_perm, cuda_permutations);
+  find_all_permutations_kernel_shared_memory<<<blockNum, blockSize, blockSize * word_length * sizeof(char)>>>(cuda_word, word_length, num_perm, cuda_permutations);
   cudaDeviceSynchronize();
 
   cudaEventRecord(stop, 0);
