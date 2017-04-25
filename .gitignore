@@ -1,3 +1,5 @@
-seq/permutations.o
+seq/permutations
 seq/sequential_iterative.out
 seq/sequential_recursive.out
+cuda/cuda_permutations.out
+cuda/permutations
