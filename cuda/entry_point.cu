@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <fstream>
 #include <string>
-#include <permutations.cu>
+#include "permutations.cu"
 using namespace std;
 
 int main(int argc, char** argv) {
