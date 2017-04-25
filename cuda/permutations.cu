@@ -13,7 +13,9 @@ __device__ void remove_index_from_array(char* arr, int index, int temp_length) {
 
 __device__ void remove_index_from_shared_memory_array(char* arr, int index, int temp_length, int threadId, int word_length) {
   for (int i = word_length * threadId; i < word_length * threadId + temp_length - 1; i++) {
+    printf("thread_id = %d | arr[%d] = %d | index = %d\n", threadId, i, arr[i], index);
     if (i >= index) {
+      printf("thread_id = %d | arr[%d] = %d | index = %d | arr[%d] = %c | arr[%d] = %c\n", threadId, i, arr[i], index, i, arr[i], i+1, arr[i+1]);
       arr[i] = arr[i + 1];
     }
   }
