@@ -20,15 +20,15 @@ __global__ void find_all_permutations_kernel(char* word, int word_length, unsign
 
     char* temp = word;
     unsigned long long divisor = num_perm;
-    printf("divisor = %d | num_perm = %d\n", divisor, num_perm);
+    printf("divisor = %llu | num_perm = %llu\n", divisor, num_perm);
     unsigned long long permutations_index = 0;
-    for (int digit = word_length; digit > 0; digit--) {
+    for (unsigned long long digit = word_length; digit > 0; digit--) {
       divisor /= digit;
 
       unsigned long long t = i / divisor;
-      int index = t % digit;
+      unsigned long long index = t % digit;
 
-      printf("permutations[%d] = temp[%d] = %c | divisor = %d | digit = %d | t = %d\n", i + permutations_index, index, temp[index], divisor, digit, t);
+      printf("permutations[%llu] = temp[%llu] = %c | divisor = %llu | digit = %llu | t = %llu\n", i + permutations_index, index, temp[index], divisor, digit, t);
 
       permutations[i + permutations_index] = temp[index];
       permutations_index++;
