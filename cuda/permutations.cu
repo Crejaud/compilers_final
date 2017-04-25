@@ -27,6 +27,8 @@ __global__ void find_all_permutations_kernel(char* word, int word_length, unsign
       unsigned long long t = i / div;
       int index = t % digit;
 
+      printf("permutations[%d] = temp[%d] = %c\n", i + permutations_index, index, temp[index]);
+
       permutations[i + permutations_index] = temp[index];
       permutations_index++;
 
