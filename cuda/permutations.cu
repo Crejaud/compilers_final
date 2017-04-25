@@ -34,6 +34,8 @@ __global__ void find_all_permutations_kernel(char* word, int word_length, unsign
   }
 }
 
+void generateWord(char* word, int* word_length);
+
 void find_all_permutations(int blockSize, int blockNum, int word_length, std::ofstream outputFile) {
   // ALLOCATE
   char* word = (char *) malloc(word_length * sizeof(char));
@@ -74,8 +76,6 @@ void find_all_permutations(int blockSize, int blockNum, int word_length, std::of
   free(permutations);
   free(word);
 }
-
-void generateWord(char* word, int* word_length);
 
 /* Generate the random word given a word_length */
 void generateWord(char* word, int* word_length) {
