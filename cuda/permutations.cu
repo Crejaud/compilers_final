@@ -85,13 +85,15 @@ void generateWord(char* word, int* word_length) {
 
   const char capital_letters[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-  if (word_length <= 0) {
+  if (*word_length <= 0) {
     printf("Invalid size. Defaulting to size 10.\n");
     *word_length = 10;
   }
 
   for (int i = 0; i < *word_length; i++) {
     rand_num = rand() * (sizeof(capital_letters) - 1);
+    printf("adding rand_num %d\n", rand_num);
+    printf("adding capital_letters[%d] = %c to word[%d]\n", rand_num, capital_letters[rand_num], i);
     word[i] = capital_letters[rand_num];
   }
 }

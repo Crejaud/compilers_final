@@ -25,15 +25,12 @@ int main(int argc, char** argv) {
 
   for (int iii = 1; iii < argc; ++iii) {
     if (!strcmp(argv[iii], "--word_length") && iii != argc - 1) {
-      printf("arg for word_length is %s\n", argv[iii+1]);
       word_length = atoi(argv[iii+1]);
     }
     else if (!strcmp(argv[iii], "--bsize") && iii != argc - 1) {
-      printf("arg for bsize is %s\n", argv[iii+1]);
       bsize = atoi(argv[iii+1]);
     }
     else if (!strcmp(argv[iii], "--bcount") && iii != argc - 1) {
-      printf("arg for bcount is %s\n", argv[iii+1]);
       bcount = atoi(argv[iii+1]);
     }
   }
