@@ -29,7 +29,7 @@ __global__ void find_all_permutations_kernel(char* word, int word_length, unsign
     //char* temp = word;
     unsigned long long divisor = num_perm;
     int temp_length = word_length;
-    char temp[word_length];
+    char temp[12];
     for (int i = 0; i < word_length; i++) {
       temp[i] = word[i];
     }
