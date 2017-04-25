@@ -41,9 +41,9 @@ __global__ void find_all_permutations_kernel_shared_memory(char* word, int word_
     int temp_length = word_length;
 
     // populate shared memory with word
-    for (int j = beg * word_length; j < beg * word_length + 4; j++) {
-      printf("temp[%d] = %c\n", j, word[j]);
-      temp_word[j] = word[j];
+    for (int j = beg * word_length; j < beg * word_length + word_length; j++) {
+      printf("temp[%d] = %c\n", j, word[j % word_length]);
+      temp_word[j] = word[j % word_length];
     }
     //printf("divisor = %llu | num_perm = %llu | word_length %d\n", divisor, num_perm, word_length);
     unsigned long long permutations_index = 0;
