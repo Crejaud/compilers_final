@@ -156,7 +156,7 @@ char* find_all_permutations(int blockSize, int blockNum, int word_length) {
 
   cudaEventElapsedTime(&elapsed, start, stop);
 
-  printf("Elapsed time [No shared memory]: %.2f ms\n", elapsed);
+  printf("Elapsed time [No shared memory]: %.5f ms\n", elapsed);
 
   cudaEventRecord(start, 0);
 
@@ -169,7 +169,7 @@ char* find_all_permutations(int blockSize, int blockNum, int word_length) {
 
   cudaEventElapsedTime(&elapsed, start, stop);
 
-  printf("Elapsed time [Shared memory]: %.2f ms\n", elapsed);
+  printf("Elapsed time [Shared memory]: %.5f ms\n", elapsed);
 
   cudaMemcpy(permutations, cuda_permutations, word_length * num_perm * sizeof(char), cudaMemcpyDeviceToHost);
 
