@@ -16,10 +16,13 @@ __global__ void find_all_permutations_kernel(char* word, int word_length, unsign
   unsigned long long lane = thread_id % 32;
   beg += lane;
 
+  printf("num_perm = %d\n", num_perm);
+
   for(unsigned long long i = beg; i < end; i += 32) {
 
     char* temp = word;
     unsigned long long div = num_perm;
+    printf("div = %d\n", div);
     unsigned long long permutations_index = 0;
     for (int digit = word_length; digit > 0; digit--) {
       div /= digit;
