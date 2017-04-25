@@ -30,9 +30,9 @@ __global__ void find_all_permutations_kernel(char* word, int word_length, unsign
       unsigned long long t = i / divisor;
       int index = t % digit;
 
-      printf("permutations[%llu] = temp[%d] = %c | divisor = %llu | digit = %d | t = %llu\n", i + permutations_index, index, temp[index], divisor, digit, t);
+      printf("permutations[%llu] = temp[%d] = %c | divisor = %llu | digit = %d | t = %llu\n", i*word_length + permutations_index, index, temp[index], divisor, digit, t);
 
-      permutations[i + permutations_index] = temp[index];
+      permutations[i*word_length + permutations_index] = temp[index];
       permutations_index++;
     }
   }
