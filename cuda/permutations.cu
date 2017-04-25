@@ -21,9 +21,11 @@ __global__ void find_all_permutations_kernel(char* word, int word_length, unsign
     char* temp = word;
     unsigned long long divisor = num_perm;
     printf("divisor = %llu | num_perm = %llu | word_length %d\n", divisor, num_perm, word_length);
-    int permutations_index = 0;
+    unsigned long long permutations_index = 0;
     for (int digit = word_length; digit > 0; digit--) {
+      printf("divisor before = %llu, digit = %d\n", divisor, digit);
       divisor /= digit;
+      printf("divisor after = %llu\n", divisor);
 
       unsigned long long t = i / divisor;
       int index = t % digit;
@@ -32,7 +34,6 @@ __global__ void find_all_permutations_kernel(char* word, int word_length, unsign
 
       permutations[i + permutations_index] = temp[index];
       permutations_index++;
-
     }
   }
 }
