@@ -3,6 +3,14 @@
 
 #include <fstream>
 
+__device__ void remove_index_from_array(char* arr, int index, int temp_length) {
+  for (int i = 0; i < temp_length - 1; i++) {
+    if (i >= index) {
+      arr[i] = arr[i+1];
+    }
+  }
+}
+
 __global__ void find_all_permutations_kernel(char* word, int word_length, unsigned long long num_perm, char* permutations) {
   unsigned long long thread_id = blockDim.x * blockIdx.x + threadIdx.x;
   unsigned long long thread_num = blockDim.x * gridDim.x;
@@ -20,6 +28,7 @@ __global__ void find_all_permutations_kernel(char* word, int word_length, unsign
 
     char* temp = word;
     unsigned long long divisor = num_perm;
+    int temp_length = word_length;
     //printf("divisor = %llu | num_perm = %llu | word_length %d\n", divisor, num_perm, word_length);
     unsigned long long permutations_index = 0;
     for (int digit = word_length; digit > 0; digit--) {
@@ -36,7 +45,8 @@ __global__ void find_all_permutations_kernel(char* word, int word_length, unsign
       permutations_index++;
 
       // remove temp[index]
-      memmove(&temp[index], &temp[index+1], strlen(temp) - index);
+      remove_index_from_array(temp, index, temp_length);
+      temp_length--;
     }
   }
 }
