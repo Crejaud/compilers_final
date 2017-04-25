@@ -41,7 +41,7 @@ __global__ void find_all_permutations_kernel_shared_memory(char* word, int word_
     int temp_length = word_length;
 
     // populate shared memory with word
-    for (int j = threadIdx.x * word_length; j < threadIdx.x * word_length + 4; j++) {
+    for (int j = beg * word_length; j < beg * word_length + 4; j++) {
       printf("temp[%d] = %c\n", j, word[j]);
       temp_word[j] = word[j];
     }
@@ -55,7 +55,7 @@ __global__ void find_all_permutations_kernel_shared_memory(char* word, int word_
       unsigned long long t = i / divisor;
       int index = t % digit;
 
-      int true_index = index + threadIdx.x * word_length;
+      int true_index = index + beg * word_length;
 
       printf("permutations[%llu] = temp[%d] = %c | divisor = %llu | digit = %d | t = %llu\n", i*word_length + permutations_index, true_index, temp_word[index], divisor, digit, t);
 
@@ -64,7 +64,7 @@ __global__ void find_all_permutations_kernel_shared_memory(char* word, int word_
 
       // remove temp[index]
       char* ptr_to_smem = (char *) temp_word;
-      remove_index_from_shared_memory_array(ptr_to_smem, true_index, temp_length, threadIdx.x, word_length);
+      remove_index_from_shared_memory_array(ptr_to_smem, true_index, temp_length, beg, word_length);
       temp_length--;
     }
   }
