@@ -59,8 +59,9 @@ void generateWord(char* word, int* word_length);
 
 char* find_all_permutations(int blockSize, int blockNum, int word_length) {
   // ALLOCATE
+  float elapsed = 0;
+  cudaEvent_t start, stop;
   char* word = (char *) malloc(word_length * sizeof(char));
-
   unsigned long long num_perm = 1;
   for (int k = 1; k <= word_length; num_perm *= k++);
 
@@ -73,20 +74,34 @@ char* find_all_permutations(int blockSize, int blockNum, int word_length) {
   char* cuda_permutations;
   char* cuda_word;
 
+  cudaEventCreate(&start);
+  cudaEventCreate(&stop);
+
   cudaMalloc((void **) &cuda_permutations, word_length * num_perm * sizeof(char));
   cudaMalloc((void **) &cuda_word, word_length * sizeof(char));
   cudaMemcpy(cuda_permutations, permutations, word_length * num_perm * sizeof(char), cudaMemcpyHostToDevice);
   cudaMemcpy(cuda_word, word, word_length * sizeof(char), cudaMemcpyHostToDevice);
 
+  cudaEventRecord(start, 0);
+
   // call kernel
   find_all_permutations_kernel<<<blockNum, blockSize>>>(cuda_word, word_length, num_perm, cuda_permutations);
   cudaDeviceSynchronize();
+
+  cudaEventRecord(stop, 0);
+  cudaEventSyncronize(stop);
+
+  cudaEventElapsedTime(&elapsed, start, stop);
+
+  printf("Elapsed time: %.2f ms\n", elapsed);
 
   cudaMemcpy(permutations, cuda_permutations, word_length * num_perm * sizeof(char), cudaMemcpyDeviceToHost);
 
   // DEALLOCATE
   cudaFree(cuda_permutations);
   cudaFree(cuda_word);
+  cudaEventDestroy(start);
+  cudaEventDestroy(stop);
   free(word);
 
   return permutations;
