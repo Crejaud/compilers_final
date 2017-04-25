@@ -45,10 +45,14 @@ char* find_all_permutations(int blockSize, int blockNum, int word_length) {
   unsigned long long num_perm = 1;
   for (int k = 1; k <= word_length; num_perm *= k++);
 
+  printf("word_length before: %d\n", word_length);
+
   // generate word given length
   generateWord(word, &word_length);
 
   printf("word: %s\n", word);
+  printf("word_length after: %d\n", word_length);
+
 
   // this will contain all of the permutations of the word above
   char* permutations = (char *) malloc(word_length * num_perm * sizeof(char));
