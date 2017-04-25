@@ -20,14 +20,14 @@ __global__ void find_all_permutations_kernel(char* word, int word_length, unsign
 
     char* temp = word;
     unsigned long long div = num_perm;
-    int permutations_index = 0;
+    unsigned long long permutations_index = 0;
     for (int digit = word_length; digit > 0; digit--) {
       div /= digit;
 
       unsigned long long t = i / div;
       int index = t % digit;
 
-      printf("permutations[%d] = temp[%d] = %c\n", i + permutations_index, index, temp[index]);
+      printf("permutations[%d] = temp[%d] = %c | div = %d | digit = %d | t = %d\n", i + permutations_index, index, temp[index], div, digit, t);
 
       permutations[i + permutations_index] = temp[index];
       permutations_index++;
@@ -45,14 +45,8 @@ char* find_all_permutations(int blockSize, int blockNum, int word_length) {
   unsigned long long num_perm = 1;
   for (int k = 1; k <= word_length; num_perm *= k++);
 
-  printf("word_length before: %d\n", word_length);
-
   // generate word given length
   generateWord(word, &word_length);
-
-  printf("word: %s\n", word);
-  printf("word_length after: %d\n", word_length);
-
 
   // this will contain all of the permutations of the word above
   char* permutations = (char *) malloc(word_length * num_perm * sizeof(char));
@@ -91,11 +85,7 @@ void generateWord(char* word, int* word_length) {
   }
 
   for (int i = 0; i < *word_length; i++) {
-    printf("capital_letters size = %d\n", sizeof(capital_letters));
-    printf("rand() = %d\n", rand());
     rand_num = rand() % (sizeof(capital_letters) - 1);
-    printf("adding rand_num %d\n", rand_num);
-    printf("adding capital_letters[%d] = %c to word[%d]\n", rand_num, capital_letters[rand_num], i);
     word[i] = capital_letters[rand_num];
   }
 }
