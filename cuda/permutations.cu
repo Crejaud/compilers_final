@@ -91,6 +91,8 @@ void generateWord(char* word, int* word_length) {
   }
 
   for (int i = 0; i < *word_length; i++) {
+    printf("capital_letters size = %d\n", sizeof(capital_letters));
+    printf("rand() = %d\n", rand());
     rand_num = rand() * (sizeof(capital_letters) - 1);
     printf("adding rand_num %d\n", rand_num);
     printf("adding capital_letters[%d] = %c to word[%d]\n", rand_num, capital_letters[rand_num], i);
