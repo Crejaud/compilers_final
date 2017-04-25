@@ -48,6 +48,8 @@ char* find_all_permutations(int blockSize, int blockNum, int word_length) {
   // generate word given length
   generateWord(word, &word_length);
 
+  printf("word: %s\n", word);
+
   // this will contain all of the permutations of the word above
   char* permutations = (char *) malloc(word_length * num_perm * sizeof(char));
 
@@ -86,6 +88,6 @@ void generateWord(char* word, int* word_length) {
 
   for (int i = 0; i < *word_length; i++) {
     rand_num = rand() * (sizeof(capital_letters) - 1);
-    word += capital_letters[rand_num];
+    word[i] = capital_letters[rand_num];
   }
 }
