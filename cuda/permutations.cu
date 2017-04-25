@@ -24,7 +24,7 @@ __global__ void find_all_permutations_kernel(char* word, int word_length, unsign
     for (int digit = word_length; digit > 0; digit--) {
       div /= digit;
 
-      unsigned long long t = first / div;
+      unsigned long long t = i / div;
       int index = t % digit;
 
       permutations[i + permutations_index] = temp[index];
@@ -74,6 +74,8 @@ void find_all_permutations(int blockSize, int blockNum, int word_length, std::of
   free(permutations);
   free(word);
 }
+
+void generateWord(char* word, int* word_length);
 
 /* Generate the random word given a word_length */
 void generateWord(char* word, int* word_length) {
