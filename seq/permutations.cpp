@@ -45,7 +45,7 @@ int main() {
 
   duration = (end - start)/(double) CLOCKS_PER_SEC;
 
-  cout << "[Sequential - Recursive] Permutations: " << duration * 1000 << " ms" << endl;
+  cout << "[Sequential - Recursive] Permutations: " << duration * 1000.0 << " ms" << endl;
 
   start = clock();
   long long perm=1, digits=word.size();
@@ -56,7 +56,7 @@ int main() {
 
   duration = (end - start)/(double) CLOCKS_PER_SEC;
 
-  cout << "[Sequential - Iterative] Permutations: " << duration * 1000 << " ms" << endl;
+  cout << "[Sequential - Iterative] Permutations: " << duration * 1000.0 << " ms" << endl;
 
   out_rec.close();
   out_iter.close();
