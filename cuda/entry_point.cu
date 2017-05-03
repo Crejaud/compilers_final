@@ -41,8 +41,9 @@ int main(int argc, char** argv) {
   }
   int blockSizes[5] = {256, 284, 512, 768, 1024};
   int blockCounts[5] = {8, 5, 4, 2, 2};
+  char* permutations;
   for (int i = 0; i < 5; i++) {
-    char* permutations = find_all_permutations(blockSizes[i], blockCounts[i], word_length);
+    permutations = find_all_permutations(blockSizes[i], blockCounts[i], word_length);
   }
 
   unsigned long long num_perm = 1;
