@@ -7,6 +7,7 @@
 #include <thread>
 #include <mutex>
 #include <fstream>
+#include <sys/time.h>
 using namespace std;
 
 ofstream out_rec, out_iter;
@@ -29,7 +30,8 @@ int main() {
   out_iter.open("sequential_iterative.out", ios::app);
 
   clock_t start, end;
-  double duration;
+  //struct timespec start, end;
+  float duration;
   int word_length, num_threads;
   string word = "";
   cout << "Please enter the integer size of your word: ";
@@ -38,30 +40,36 @@ int main() {
   // create word that is nice and consistent for this problem
   word = setupWord(word_length);
 
+  //clock_gettime(CLOCK_MONOTONIC_RAW, &start);
   start = clock();
   // do sequential recursive
   find_permutations_rec(word);
+  //clock_gettime(CLOCK_MONOTONIC_RAW, &end);
   end = clock();
 
   duration = (end - start)/(double) CLOCKS_PER_SEC;
-  duration *= 1000.0;
 
-  printf("[Sequential - Recursive] Permutations: %d ms\n", duration);
-  //cout << "[Sequential - Recursive] Permutations: " << duration * 1000.0 << " ms" << endl;
+  //duration = (end.tv_sec - start.tv_sec) * 1000000 + (end.tv_nsec - start.tv_nsec) / 1000;
+  //rintf("[Sequential - Recursive] Permutations: %f ms\n", duration);
+  cout << "[Sequential - Recursive] Permutations: " << duration * 1000.0 << " ms" << endl;
 
+  //clock_gettime(CLOCK_MONOTONIC_RAW, &start);
   start = clock();
   long long perm=1, digits=word.size();
   for (int k=1;k<=digits;perm*=k++);
   find_permutations(word, perm);
 
+  //clock_gettime(CLOCK_MONOTONIC_RAW, &end);
   end = clock();
 
   duration = (end - start)/(double) CLOCKS_PER_SEC;
-  duration *= 1000.0;
+  //duration *= 1000.0;
+  //duration = (end.tv_sec - start.tv_sec) * 1000000 + (end.tv_nsec - start.tv_nsec) / 1000;
 
-  printf("[Sequential - Iterative] Permutations: %d ms\n", duration);
 
-  //cout << "[Sequential - Iterative] Permutations: " << duration * 1000.0 << " ms" << endl;
+  //printf("[Sequential - Iterative] Permutations: %f ms\n", duration);
+
+  cout << "[Sequential - Iterative] Permutations: " << duration * 1000.0 << " ms" << endl;
 
   out_rec.close();
   out_iter.close();
