@@ -130,6 +130,7 @@ char* find_all_permutations(int blockSize, int blockNum, int word_length) {
   generateWord(word, &word_length);
 
   printf("Word = %s\n", word);
+  printf("word length %d\n", word_length);
 
   // this will contain all of the permutations of the word above
   char* permutations = (char *) malloc(word_length * num_perm * sizeof(char));
