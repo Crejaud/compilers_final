@@ -39,8 +39,11 @@ int main(int argc, char** argv) {
     cerr << "Usage: " << usage;
     return 1;
   }
-
-  char* permutations = find_all_permutations(bsize, bcount, word_length);
+  int blockSizes[5] = {256, 284, 512, 768, 1024};
+  int blockCounts[5] = {8, 5, 4, 2, 2};
+  for (int i = 0; i < 5; i++) {
+    char* permutations = find_all_permutations(blockSizes[i], blockCounts[i], word_length);
+  }
 
   unsigned long long num_perm = 1;
   for (int k = 1; k <= word_length; num_perm *= k++);
