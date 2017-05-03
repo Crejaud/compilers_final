@@ -43,7 +43,7 @@ int main(int argc, char** argv) {
   int blockCounts[5] = {8, 5, 4, 2, 2};
   char* permutations;
   //for (int i = 0; i < 5; i++) {
-    permutations = find_all_permutations(blockSizes[i], blockCounts[i], word_length);
+    permutations = find_all_permutations(bsize, bcount, word_length);
   //}
 
   unsigned long long num_perm = 1;
