@@ -19,8 +19,8 @@ int main(int argc, char** argv) {
                         Block size: E.g., --bsize 512\n\
                         Block count: E.g., --bcount 192\n";
 
-  int bsize = 512, bcount = 4;
-  int word_length = 1;
+  int bsize = -1, bcount = -1;
+  int word_length = -1;
   // GET INPUT PARAMETERS
 
   for (int iii = 1; iii < argc; ++iii) {
